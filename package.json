@@ -1,0 +1,31 @@
+{
+  "name": "home-finance",
+  "version": "0.0.0",
+  "author": "gudvin",
+  "license": "MIT",
+  "description": "home-finance",
+  "keywords": [
+    "home-finance"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koretskiyav/home-finance.git"
+  },
+  "scripts": {
+    "start-api": "NODE_PATH=./api NODE_ENV=production APIPORT=3030 babel-node ./api/api.js"
+  },
+  "babel": {
+    "presets": [
+      "es2015-node6"
+    ]
+  },
+  "dependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-preset-es2015-node6": "^0.2.0",
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4"
+  },
+  "engines": {
+    "node": "6.1.0"
+  }
+}

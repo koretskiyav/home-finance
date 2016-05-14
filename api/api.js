@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import http from 'http';
 
 import getLogger from 'helpers/logger';
 import router from 'router';
@@ -9,7 +8,6 @@ import { apiPort } from 'etc/config.json';
 const logger = getLogger('API');
 
 const app = express();
-const server = new http.Server(app);
 
 app.use(bodyParser.json());
 

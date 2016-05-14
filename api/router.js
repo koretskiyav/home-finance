@@ -4,6 +4,7 @@ import routes from './routes';
 import getLogger from 'helpers/logger';
 import PromiseRouter from 'helpers/PromiseRouter';
 
+/* eslint new-cap:0 */
 const router = PromiseRouter(express.Router);
 
 const logger = getLogger('API:ROUTER');
@@ -20,8 +21,8 @@ router.use((req, res) => {
     status: 0,
     error: {
       code: 'UNKNOWN_API_ENDPOINT',
-      message: 'Please, contact your system administartor!'
-    }
+      message: 'Please, contact your system administartor!',
+    },
   });
 });
 

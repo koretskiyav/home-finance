@@ -1,19 +1,14 @@
-import methods  from 'methods';
-import promiseWrapper  from './promiseWrapper';
+import methods from 'methods';
+import promiseWrapper from './promiseWrapper';
 
 export default function PromiseRouter(Router) {
     /* eslint new-cap:0 */
-    const router = Router();
+  const router = Router();
 
-    methods.forEach(method => {
-        router[`${method}Async`] = function () {
-            for (const i in arguments) {
-                if (i !== '0') arguments[i] = promiseWrapper(arguments[i]);
-            }
+  methods.forEach((method) => {
+    router[`${method}Async`] = (path, ...rest) =>
+      router[method](path, ...rest.map(promiseWrapper));
+  });
 
-            return router[method](...arguments);
-        };
-    });
-
-    return router;
+  return router;
 }

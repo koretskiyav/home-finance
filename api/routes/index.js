@@ -2,16 +2,15 @@ import getLogger from 'helpers/logger';
 
 const logger = getLogger('API:ROUTER');
 
-
 export default {
   test: {
-    get: (req, res) => {
+    get: (req) => {
       logger.info(req.url, 'get test');
-      return { data: 'get test'}
+      return { data: 'get test' };
     },
-    post: (req, res) => {
+    post: (req) => {
       logger.info(req.url, 'post test');
-      return { data: 'post test'}
-    }
-  }
+      return { data: 'post test' };
+    },
+  },
 };

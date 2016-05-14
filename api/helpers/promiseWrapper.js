@@ -1,35 +1,31 @@
 import Exception from './Exception';
 
-module.exports = route => {
-    return async (req, res, next) => {
-        try {
-            const data = await route(req, res, () => 'next');
+export default route => async (req, res, next) => {
+  try {
+    const data = await route(req, res, () => 'next');
+    if (data === 'next') return next();
 
-            if (data === 'next') return next();
+    data.status = 1;
+    return res.send(data);
+  } catch (error) {
+    if (error instanceof Exception) {
+      return res.send({
+        status: 0,
+        error: error.toHash(),
+      });
+    }
+    console.error('REQUEST URL ', req.url);
+    console.error('REQUEST PARAMS: ', req.params);
+    console.error('REQUEST BODY: ', req.body);
+    console.error('ERROR: ', error.stack);
+    console.error('-------------------');
 
-            data.status = 1;
-            return res.send(data);
-        } catch (error) {
-            if (error instanceof Exception) {
-                res.send({
-                    status: 0,
-                    error: error.toHash()
-                });
-            } else {
-                console.error('REQUEST URL ', req.url);
-                console.error('REQUEST PARAMS: ', req.params);
-                console.error('REQUEST BODY: ', req.body);
-                console.error('ERROR: ', error.stack);
-                console.error('-------------------');
-
-                res.send({
-                    status: 0,
-                    error: {
-                        code:    'UNKNOWN_ERROR',
-                        message: 'Please, contact your system administartor!'
-                    }
-                });
-            }
-        }
-    };
+    return res.send({
+      status: 0,
+      error: {
+        code: 'UNKNOWN_ERROR',
+        message: 'Please, contact your system administartor!',
+      },
+    });
+  }
 };

@@ -11,7 +11,7 @@ export default function getLogger(label) {
         colorize: true,
         level: 'info',
         label,
-      })
-    ]
+      }),
+    ],
   });
 }

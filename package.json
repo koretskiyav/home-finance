@@ -12,11 +12,16 @@
     "url": "https://github.com/koretskiyav/home-finance.git"
   },
   "scripts": {
+    "lint": "eslint -c .eslintrc api",
     "start-api": "NODE_PATH=./api NODE_ENV=production babel-node ./api/api.js"
   },
   "babel": {
-    "presets": ["es2015-node6"],
-    "plugins": ["transform-async-to-generator"]
+    "presets": [
+      "es2015-node6"
+    ],
+    "plugins": [
+      "transform-async-to-generator"
+    ]
   },
   "dependencies": {
     "babel-cli": "^6.8.0",
@@ -31,5 +36,14 @@
   },
   "engines": {
     "node": "6.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.4",
+    "eslint": "^2.10.1",
+    "eslint-config-airbnb": "^9.0.1",
+    "eslint-plugin-babel": "^3.2.0",
+    "eslint-plugin-import": "^1.8.0",
+    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-react": "^5.1.1"
   }
 }

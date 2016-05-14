@@ -2,24 +2,26 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import http from 'http';
 
-const apiPort = process.env.APIPORT;
+import getLogger from 'helpers/logger';
+import router from 'router';
+import { apiPort } from 'etc/config.json';
+
+const logger = getLogger('API');
 
 const app = express();
 const server = new http.Server(app);
 
 app.use(bodyParser.json());
 
-app.use((req, res) => {
-  res.end(`URL: ${req.url}`);
-});
+app.use(router);
 
 if (apiPort) {
   app.listen(apiPort, (err) => {
     if (err) {
-      console.error(err);
+      logger.error(err);
     }
-    console.info('==>     API is running on port %s', apiPort);
+    logger.info('==>     running on port %s', apiPort);
   });
 } else {
-  console.error('==>     ERROR: No PORT environment variable has been specified');
+  logger.error('==>     ERROR: No PORT environment variable has been specified');
 }

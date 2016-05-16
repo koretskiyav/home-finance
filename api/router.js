@@ -9,8 +9,8 @@ const router = PromiseRouter(express.Router);
 
 const logger = getLogger('API:ROUTER');
 
-router.getAsync('/test', routes.test.get);
-router.postAsync('/test', routes.test.post);
+router.getAsync('/users', routes.users.list.bind(routes.users));
+router.postAsync('/users', routes.users.create.bind(routes.users));
 
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);

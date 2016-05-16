@@ -12,6 +12,7 @@
     "url": "https://github.com/koretskiyav/home-finance.git"
   },
   "scripts": {
+    "start-db": "mongod --dbpath ~/new/home-finance/api/db/ --smallfiles",
     "lint": "eslint -c .eslintrc api",
     "start-api": "NODE_PATH=./api NODE_ENV=production babel-node ./api/api.js"
   },
@@ -30,7 +31,9 @@
     "body-parser": "^1.15.1",
     "express": "^4.13.4",
     "json-pointer": "^0.5.0",
+    "livr": "0.0.14",
     "moment": "^2.13.0",
+    "mongoose": "^4.4.17",
     "rename-keys": "^1.1.2",
     "winston": "^2.2.0"
   },

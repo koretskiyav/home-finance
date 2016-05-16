@@ -1,16 +1,5 @@
-import getLogger from 'helpers/logger';
-
-const logger = getLogger('API:ROUTER');
+import Users from './Users';
 
 export default {
-  test: {
-    get: (req) => {
-      logger.info(req.url, 'get test');
-      return { data: 'get test' };
-    },
-    post: (req) => {
-      logger.info(req.url, 'post test');
-      return { data: 'post test' };
-    },
-  },
+  users: new Users(),
 };

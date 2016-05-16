@@ -1,3 +1,6 @@
 {
-  "apiPort":  3030
+  "apiPort":  3030,
+  "mongoose": {
+    "uri": "mongodb://localhost:27017"
+  }
 }

@@ -11,7 +11,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use(router);
+app.use('/api', router);
 
 if (apiPort) {
   app.listen(apiPort, (err) => {

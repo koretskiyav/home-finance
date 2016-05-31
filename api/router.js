@@ -12,6 +12,8 @@ const logger = getLogger('API:ROUTER');
 router.getAsync('/users', routes.users.list.bind(routes.users));
 router.postAsync('/users', routes.users.create.bind(routes.users));
 
+router.postAsync('/budgets', routes.budgets.create.bind(routes.budgets));
+
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);
   logger.error('BODY: ', req.body);

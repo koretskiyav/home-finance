@@ -7,7 +7,7 @@ const UserSchema = new Schema({
   email: { type: String, required: true, index: { unique: true } },
   passwordHash: { type: String, default: '' },
   salt: { type: String, default: '' },
-  createdAt: { type: Date, default: new Date() },
+  budgetId: { type: Schema.Types.ObjectId },
 });
 
 UserSchema

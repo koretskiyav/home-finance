@@ -12,9 +12,9 @@
     "url": "https://github.com/koretskiyav/home-finance.git"
   },
   "scripts": {
-    "start-db": "mongod --dbpath ~/new/home-finance/api/db/ --smallfiles",
+    "db": "mongod --dbpath ~/new/home-finance/api/db/ --smallfiles",
     "lint": "eslint -c .eslintrc api",
-    "start-api": "NODE_PATH=./api NODE_ENV=production babel-node ./api/api.js"
+    "api": "NODE_PATH=./api NODE_ENV=production babel-node ./api/api.js"
   },
   "babel": {
     "presets": [
@@ -31,7 +31,7 @@
     "json-pointer": "^0.5.0",
     "livr": "0.0.14",
     "moment": "^2.13.0",
-    "mongoose": "^4.4.17",
+    "mongoose": "^4.4.19",
     "rename-keys": "^1.1.2",
     "winston": "^2.2.0"
   },
@@ -39,16 +39,16 @@
     "node": "6.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.8.0",
+    "babel-cli": "^6.9.0",
     "babel-eslint": "^6.0.4",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-preset-es2015-node6": "^0.2.0",
-    "eslint": "^2.10.1",
+    "eslint": "^2.11.0",
     "eslint-config-airbnb": "^9.0.1",
     "eslint-plugin-babel": "^3.2.0",
-    "eslint-plugin-import": "^1.8.0",
-    "eslint-plugin-jsx-a11y": "^1.2.0",
+    "eslint-plugin-import": "^1.8.1",
+    "eslint-plugin-jsx-a11y": "^1.2.2",
     "eslint-plugin-react": "^5.1.1"
   }
 }

@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
-const AccountSchema = new Schema({
+const CategorySchema = new Schema({
   title: { type: String, required: true },
-  currencyId: { type: Schema.Types.ObjectId, required: true },
+  parentId: { type: Schema.Types.ObjectId },
   budgetId: { type: Schema.Types.ObjectId, required: true },
 });
 
-mongoose.model('Account', AccountSchema);
+mongoose.model('Category', CategorySchema);

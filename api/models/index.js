@@ -8,6 +8,8 @@ import './User';
 import './Rate';
 import './Currency';
 import './Account';
+import './Category';
+import './Transaction';
 import './Budget';
 
 export default mongoose;

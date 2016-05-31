@@ -9,10 +9,14 @@ const router = PromiseRouter(express.Router);
 
 const logger = getLogger('API:ROUTER');
 
+const checkSession = routes.sessions.check.bind(routes.sessions);
+
 router.getAsync('/users', routes.users.list.bind(routes.users));
 router.postAsync('/users', routes.users.create.bind(routes.users));
 
-router.postAsync('/budgets', routes.budgets.create.bind(routes.budgets));
+router.postAsync('/sessions', routes.sessions.create.bind(routes.sessions));
+
+router.postAsync('/budgets', checkSession, routes.budgets.create.bind(routes.budgets));
 
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);

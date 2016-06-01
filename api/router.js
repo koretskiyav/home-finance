@@ -21,6 +21,8 @@ router.postAsync('/budgets', checkSession, routes.budgets.create.bind(routes.bud
 router.getAsync('/currencies', routes.currencies.list.bind(routes.currencies));
 router.postAsync('/currencies', routes.currencies.create.bind(routes.currencies));
 
+router.postAsync('/categories', checkSession, routes.categories.create.bind(routes.categories));
+
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);
   logger.error('BODY: ', req.body);

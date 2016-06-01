@@ -9,3 +9,7 @@ export function dumpBudget({ id, currencyId }) {
 export function dumpCurrency({ id, code }) {
   return { id, code };
 }
+
+export function dumpCategory({ id, title, parentId }) {
+  return { id, title, parentId };
+}

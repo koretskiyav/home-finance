@@ -1,5 +1,5 @@
-export function dumpUser({ id, email }) {
-  return { id, email };
+export function dumpUser({ id, email, budgetId }) {
+  return { id, email, budgetId };
 }
 
 export function dumpBudget({ id, currencyId }) {

@@ -34,6 +34,15 @@ export default class Create extends Base {
       });
     }
 
+    if (this.context.userBudgetId) {
+      throw new Exception({
+        code: 'NOT_UNIQUE',
+        fields: {
+          budgetId: 'NOT_UNIQUE',
+        },
+      });
+    }
+
     const user = await User.findById(this.context.userId);
     const budget = new Budget({ currencyId });
 

@@ -18,6 +18,7 @@ export default class Sessions extends Base {
       context: {
         userId: userData.id,
         userStatus: userData.status,
+        userBudgetId: userData.budgetId,
       },
     };
 

@@ -1,8 +1,10 @@
-import Validator from './Validator';
-
 export default class Base {
-  constructor() {
-    this.validator = new Validator();
+  constructor(args) {
+    if (!args.validator) throw new Error('validator required');
+    if (!args.context) throw new Error('context required');
+
+    this.validator = args.validator;
+    this.context = args.context;
   }
 
   async run(params) {

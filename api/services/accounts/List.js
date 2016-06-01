@@ -1,8 +1,8 @@
-import { dumpCategory } from 'services/utils';
+import { dumpAccount } from 'services/utils';
 import Base from 'services/Base';
 import mongoose from 'models';
 
-const Category = mongoose.model('Category');
+const Account = mongoose.model('Account');
 
 export default class List extends Base {
   validate() {
@@ -13,10 +13,10 @@ export default class List extends Base {
   }
 
   async execute(data) {
-    const categories = await Category.find(data);
+    const accounts = await Account.find(data);
 
     return {
-      data: categories.map(dumpCategory),
+      data: accounts.map(dumpAccount),
     };
   }
 }

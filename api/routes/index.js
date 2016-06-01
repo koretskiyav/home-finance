@@ -3,6 +3,7 @@ import Budgets from './Budgets';
 import Sessions from './Sessions';
 import Currencies from './Currencies';
 import Categories from './Categories';
+import Accounts from './Accounts';
 
 export default {
   users: new Users(),
@@ -10,4 +11,5 @@ export default {
   sessions: new Sessions(),
   currencies: new Currencies(),
   categories: new Categories(),
+  accounts: new Accounts(),
 };

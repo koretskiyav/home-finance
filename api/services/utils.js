@@ -13,3 +13,7 @@ export function dumpCurrency({ id, code }) {
 export function dumpCategory({ id, title, parentId }) {
   return { id, title, parentId };
 }
+
+export function dumpAccount({ id, title, currencyId }) {
+  return { id, title, currencyId };
+}

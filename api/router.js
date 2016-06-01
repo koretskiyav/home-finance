@@ -24,6 +24,9 @@ router.postAsync('/currencies', routes.currencies.create.bind(routes.currencies)
 router.getAsync('/categories', checkSession, routes.categories.list.bind(routes.categories));
 router.postAsync('/categories', checkSession, routes.categories.create.bind(routes.categories));
 
+router.getAsync('/accounts', checkSession, routes.accounts.list.bind(routes.accounts));
+router.postAsync('/accounts', checkSession, routes.accounts.create.bind(routes.accounts));
+
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);
   logger.error('BODY: ', req.body);

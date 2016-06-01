@@ -10,20 +10,12 @@ export default class Create extends Base {
     const rules = {
       title: 'required',
       parentId: 'not_empty',
+      budgetId: 'required',
     };
-    return this.validator.validate(data, rules);
+    return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
   async execute(data) {
-    if (!this.context.userBudgetId) {
-      throw new Exception({
-        code: 'NO_BUDGET',
-        fields: {
-          budgetId: 'REQUIRED',
-        },
-      });
-    }
-
     if (data.parentId && !await Category.findById(data.parentId)) {
       throw new Exception({
         code: 'NOT_FOUND',
@@ -33,7 +25,7 @@ export default class Create extends Base {
       });
     }
 
-    const category = new Category({ ...data, budgetId: this.context.userBudgetId });
+    const category = new Category(data);
 
     await category.save();
 

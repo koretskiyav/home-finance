@@ -11,11 +11,12 @@ export default class Create extends Base {
   validate(data) {
     const rules = {
       currencyId: 'required',
+      userId: 'required',
     };
-    return this.validator.validate(data, rules);
+    return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
-  async execute({ currencyId }) {
+  async execute({ currencyId, userId }) {
     if (!await Currency.findById(currencyId)) {
       throw new Exception({
         code: 'NOT_FOUND',
@@ -25,16 +26,7 @@ export default class Create extends Base {
       });
     }
 
-    if (!this.context.userId) {
-      throw new Exception({
-        code: 'FORMAT_ERROR',
-        fields: {
-          userId: 'REQUIRED',
-        },
-      });
-    }
-
-    if (this.context.userBudgetId) {
+    if (this.context.budgetId) {
       throw new Exception({
         code: 'NOT_UNIQUE',
         fields: {
@@ -43,7 +35,7 @@ export default class Create extends Base {
       });
     }
 
-    const user = await User.findById(this.context.userId);
+    const user = await User.findById(userId);
     const budget = new Budget({ currencyId });
 
     await budget.save();

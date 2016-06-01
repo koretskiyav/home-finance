@@ -7,4 +7,11 @@ export default class Categories extends Base {
       params: req.body,
     });
   }
+
+  async list(req) {
+    return await this.run('categories/List', {
+      session: req.session,
+      params: req.query,
+    });
+  }
 }

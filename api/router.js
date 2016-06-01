@@ -4,7 +4,8 @@ import routes from './routes';
 import getLogger from 'helpers/logger';
 import PromiseRouter from 'helpers/PromiseRouter';
 
-/* eslint new-cap:0 */
+/* eslint new-cap: 0 */
+/* eslint max-len: [0, 120] */
 const router = PromiseRouter(express.Router);
 
 const logger = getLogger('API:ROUTER');
@@ -26,6 +27,9 @@ router.postAsync('/categories', checkSession, routes.categories.create.bind(rout
 
 router.getAsync('/accounts', checkSession, routes.accounts.list.bind(routes.accounts));
 router.postAsync('/accounts', checkSession, routes.accounts.create.bind(routes.accounts));
+
+router.getAsync('/transactions', checkSession, routes.transactions.list.bind(routes.transactions));
+router.postAsync('/transactions', checkSession, routes.transactions.create.bind(routes.transactions));
 
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);

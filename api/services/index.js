@@ -4,6 +4,7 @@ import budgets from './budgets';
 import currencies from './currencies';
 import categories from './categories';
 import accounts from './accounts';
+import transactions from './transactions';
 
 export default {
   users,
@@ -12,4 +13,5 @@ export default {
   currencies,
   categories,
   accounts,
+  transactions,
 };

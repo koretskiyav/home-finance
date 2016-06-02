@@ -10,9 +10,9 @@ const Account = mongoose.model('Account');
 export default class Create extends Base {
   validate(data) {
     const rules = {
-      accountId: 'required',
-      categoryId: 'required',
-      budgetId: 'required',
+      accountId: ['required', 'object_id'],
+      categoryId: ['required', 'object_id'],
+      budgetId: ['required', 'object_id'],
       quantity: ['required', 'positive_decimal'],
       price: ['required', 'positive_decimal'],
     };

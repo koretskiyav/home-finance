@@ -7,7 +7,7 @@ const Category = mongoose.model('Category');
 export default class List extends Base {
   validate() {
     const rules = {
-      budgetId: 'required',
+      budgetId: ['required', 'object_id'],
     };
     return this.validator.validate(this.context, rules);
   }

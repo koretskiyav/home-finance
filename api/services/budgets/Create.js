@@ -10,7 +10,7 @@ const Currency = mongoose.model('Currency');
 export default class Create extends Base {
   validate(data) {
     const rules = {
-      currencyId: 'required',
+      currencyId: ['required', 'object_id'],
       userId: 'required',
     };
     return this.validator.validate({ ...data, ...this.context }, rules);
@@ -26,7 +26,7 @@ export default class Create extends Base {
       });
     }
 
-    if (this.context.budgetId) {
+    if (this.context.budgetId) { // TODO not work if - need find here!
       throw new Exception({
         code: 'NOT_UNIQUE',
         fields: {

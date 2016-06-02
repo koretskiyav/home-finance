@@ -26,7 +26,9 @@ export default class Create extends Base {
       });
     }
 
-    if (this.context.budgetId) { // TODO not work if - need find here!
+    const user = await User.findById(userId);
+
+    if (user.budgetId) {
       throw new Exception({
         code: 'NOT_UNIQUE',
         fields: {
@@ -35,7 +37,6 @@ export default class Create extends Base {
       });
     }
 
-    const user = await User.findById(userId);
     const budget = new Budget({ currencyId });
 
     await budget.save();

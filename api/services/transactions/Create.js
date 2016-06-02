@@ -20,7 +20,9 @@ export default class Create extends Base {
   }
 
   async execute(data) {
-    if (!await Category.findById(data.categoryId)) {
+    const { accountId, categoryId, budgetId } = data;
+
+    if (!await Category.findById(categoryId, { budgetId })) {
       throw new Exception({
         code: 'NOT_FOUND',
         fields: {
@@ -29,11 +31,11 @@ export default class Create extends Base {
       });
     }
 
-    if (!await Account.findById(data.accountId)) {
+    if (!await Account.findById(accountId, { budgetId })) {
       throw new Exception({
         code: 'NOT_FOUND',
         fields: {
-          categoryId: 'NOT_FOUND',
+          accountId: 'NOT_FOUND',
         },
       });
     }
@@ -42,6 +44,8 @@ export default class Create extends Base {
 
     await transaction.save();
 
-    return dumpTransaction(transaction);
+    return {
+      data: dumpTransaction(transaction),
+    };
   }
 }

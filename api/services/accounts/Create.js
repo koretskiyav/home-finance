@@ -19,6 +19,8 @@ export default class Create extends Base {
 
     await account.save();
 
-    return dumpAccount(account);
+    return {
+      data: dumpAccount(account),
+    };
   }
 }

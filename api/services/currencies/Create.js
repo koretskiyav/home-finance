@@ -26,6 +26,8 @@ export default class Create extends Base {
     const currency = new Currency({ code });
     await currency.save();
 
-    return dumpCurrency(currency);
+    return {
+      data: dumpCurrency(currency),
+    };
   }
 }

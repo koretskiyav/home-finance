@@ -28,6 +28,8 @@ export default class Create extends Base {
     const user = new User({ email, password });
     await user.save();
 
-    return dumpUser(user);
+    return {
+      data: dumpUser(user),
+    };
   }
 }

@@ -10,8 +10,8 @@ export function dumpCurrency({ id, code }) {
   return { id, code };
 }
 
-export function dumpCategory({ id, title, parentId }) {
-  return { id, title, parentId };
+export function dumpCategory({ id, title, type, parentId }) {
+  return { id, title, type, parentId };
 }
 
 export function dumpAccount({ id, title, currencyId }) {

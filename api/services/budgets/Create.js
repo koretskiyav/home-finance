@@ -44,6 +44,8 @@ export default class Create extends Base {
 
     await user.save();
 
-    return dumpBudget(budget);
+    return {
+      data: dumpBudget(budget),
+    };
   }
 }

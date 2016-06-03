@@ -2,21 +2,21 @@ import { dumpCategory } from 'services/utils';
 import Base from 'services/Base';
 import mongoose from 'models';
 
-const Category = mongoose.model('Category');
+const Budget = mongoose.model('Budget');
 
 export default class List extends Base {
   validate() {
     const rules = {
-      budgetId: ['required', 'object_id'],
+      user: ['required', 'object_id'],
     };
     return this.validator.validate(this.context, rules);
   }
 
-  async execute(data) {
-    const categories = await Category.find(data);
+  async execute({ user }) {
+    const budget = await Budget.findOne({ users: user }).populate('categories').exec();
 
     return {
-      data: categories.map(dumpCategory),
+      data: budget.categories.map(dumpCategory),
     };
   }
 }

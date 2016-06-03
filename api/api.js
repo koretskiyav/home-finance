@@ -9,7 +9,26 @@ const logger = getLogger('API');
 
 const app = express();
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({
+  limit: 1024 * 1024,
+  verify(req, res, buf) {
+    if (req.method === 'DELETE') {
+      return;
+    }
+
+    try {
+      JSON.parse(buf);
+    } catch (e) {
+      res.send({
+        status: 0,
+        error: {
+          code: 'BROKEN_JSON',
+          message: 'Please, verify your json',
+        },
+      });
+    }
+  },
+}));
 
 app.use('/api', router);
 

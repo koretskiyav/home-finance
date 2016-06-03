@@ -16,9 +16,7 @@ export default class Sessions extends Base {
     /* eslint no-param-reassign: ["error", { "props": false }] */
     req.session = {
       context: {
-        userId: userData.id,
-        userStatus: userData.status,
-        budgetId: userData.budgetId,
+        user: userData.id,
       },
     };
 

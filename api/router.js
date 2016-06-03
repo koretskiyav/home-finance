@@ -12,7 +12,7 @@ const logger = getLogger('API:ROUTER');
 
 const checkSession = routes.sessions.check.bind(routes.sessions);
 
-router.getAsync('/users', routes.users.list.bind(routes.users));
+router.getAsync('/users', checkSession, routes.users.list.bind(routes.users));
 router.postAsync('/users', routes.users.create.bind(routes.users));
 
 router.postAsync('/sessions', routes.sessions.create.bind(routes.sessions));

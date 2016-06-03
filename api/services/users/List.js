@@ -2,18 +2,21 @@ import { dumpUser } from 'services/utils';
 import Base from 'services/Base';
 import mongoose from 'models';
 
-const User = mongoose.model('User');
+const Budget = mongoose.model('Budget');
 
 export default class List extends Base {
   validate() {
-    return;
+    const rules = {
+      user: 'required',
+    };
+    return this.validator.validate(this.context, rules);
   }
 
-  async execute() {
-    const users = await User.find();
+  async execute({ user }) {
+    const budget = await Budget.findOne({ users: user }).populate('users').exec();
 
     return {
-      data: users.map(dumpUser),
+      data: budget.users.map(dumpUser),
     };
   }
 }

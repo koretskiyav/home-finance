@@ -1,4 +1,4 @@
-// import { dumpUser } from 'services/utils';
+import { dumpUser } from 'services/utils';
 import Exception from 'helpers/Exception';
 import Base from 'services/Base';
 import mongoose from 'models';
@@ -54,8 +54,7 @@ export default class Create extends Base {
     await budget.save();
 
     return {
-      data: { user, budget },
-      // dumpUser(user),
+      data: dumpUser(user),
     };
   }
 }

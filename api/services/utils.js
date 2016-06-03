@@ -6,8 +6,8 @@ export function dumpBudget({ id, currencyId }) {
   return { id, currencyId };
 }
 
-export function dumpCurrency({ id, code }) {
-  return { id, code };
+export function dumpCurrency({ id, code, budgetId }) {
+  return { id, code, budgetId };
 }
 
 export function dumpCategory({ id, title, type, parentId }) {

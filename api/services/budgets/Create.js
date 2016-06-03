@@ -5,27 +5,16 @@ import mongoose from 'models';
 
 const Budget = mongoose.model('Budget');
 const User = mongoose.model('User');
-const Currency = mongoose.model('Currency');
 
 export default class Create extends Base {
-  validate(data) {
+  validate() {
     const rules = {
-      currencyId: ['required', 'object_id'],
       userId: 'required',
     };
-    return this.validator.validate({ ...data, ...this.context }, rules);
+    return this.validator.validate(this.context, rules);
   }
 
-  async execute({ currencyId, userId }) {
-    if (!await Currency.findById(currencyId)) {
-      throw new Exception({
-        code: 'NOT_FOUND',
-        fields: {
-          currency: 'NOT_FOUND',
-        },
-      });
-    }
-
+  async execute({ userId }) {
     const user = await User.findById(userId);
 
     if (user.budgetId) {
@@ -37,7 +26,7 @@ export default class Create extends Base {
       });
     }
 
-    const budget = new Budget({ currencyId });
+    const budget = new Budget();
 
     await budget.save();
 

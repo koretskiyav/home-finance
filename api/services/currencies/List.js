@@ -6,11 +6,14 @@ const Currency = mongoose.model('Currency');
 
 export default class List extends Base {
   validate() {
-    return;
+    const rules = {
+      budgetId: ['required', 'object_id'],
+    };
+    return this.validator.validate(this.context, rules);
   }
 
-  async execute() {
-    const currencies = await Currency.find();
+  async execute(data) {
+    const currencies = await Currency.find(data);
 
     return {
       data: currencies.map(dumpCurrency),

@@ -9,12 +9,13 @@ export default class Create extends Base {
   validate(data) {
     const rules = {
       code: ['required', { length_equal: 3 }, 'to_uc'],
+      budgetId: ['required', 'object_id'],
     };
-    return this.validator.validate(data, rules);
+    return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
-  async execute({ code }) {
-    if (await Currency.findOne({ code })) {
+  async execute(data) {
+    if (await Currency.findOne(data)) {
       throw new Exception({
         code: 'NOT_UNIQUE',
         fields: {
@@ -23,7 +24,7 @@ export default class Create extends Base {
       });
     }
 
-    const currency = new Currency({ code });
+    const currency = new Currency(data);
     await currency.save();
 
     return {

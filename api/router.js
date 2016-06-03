@@ -19,8 +19,8 @@ router.postAsync('/sessions', routes.sessions.create.bind(routes.sessions));
 
 router.postAsync('/budgets', checkSession, routes.budgets.create.bind(routes.budgets));
 
-router.getAsync('/currencies', routes.currencies.list.bind(routes.currencies));
-router.postAsync('/currencies', routes.currencies.create.bind(routes.currencies));
+router.getAsync('/currencies', checkSession, routes.currencies.list.bind(routes.currencies));
+router.postAsync('/currencies', checkSession, routes.currencies.create.bind(routes.currencies));
 
 router.getAsync('/categories', checkSession, routes.categories.list.bind(routes.categories));
 router.postAsync('/categories', checkSession, routes.categories.create.bind(routes.categories));

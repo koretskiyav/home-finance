@@ -4,18 +4,22 @@ import Base from 'services/Base';
 import mongoose from 'models';
 
 const Currency = mongoose.model('Currency');
+const Budget = mongoose.model('Budget');
 
 export default class Create extends Base {
   validate(data) {
     const rules = {
       code: ['required', { length_equal: 3 }, 'to_uc'],
-      budgetId: ['required', 'object_id'],
+      user: ['required', 'object_id'],
+      prymary: ['required'], // TODO add bool here
     };
     return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
-  async execute(data) {
-    if (await Currency.findOne(data)) {
+  async execute({ user, code, prymary }) {
+    const budget = await Budget.findOne({ users: user });
+
+    if (await Currency.findOne({ code, budget: budget.id })) {
       throw new Exception({
         code: 'NOT_UNIQUE',
         fields: {
@@ -24,8 +28,12 @@ export default class Create extends Base {
       });
     }
 
-    const currency = new Currency(data);
+    const currency = new Currency({ code, prymary, budget: budget.id });
+    // TODO add prymary validation
     await currency.save();
+
+    budget.currencies.push(currency);
+    await budget.save();
 
     return {
       data: dumpCurrency(currency),

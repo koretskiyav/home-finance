@@ -23,6 +23,7 @@ export default class Create extends Base {
     const budget = await Budget
     .findByUser(data.user)
     .populate({ path: 'accounts' })
+    .populate({ path: 'currencies', match: { prymary: true } })
     .exec();
 
     const accountFrom = budget.accounts.find(account => account.id === data.accountFrom);
@@ -47,7 +48,13 @@ export default class Create extends Base {
       });
     }
 
-    const transfer = new Transfer({ ...data, budget: budget.id });
+    const prymaryCurrency = budget.currencies[0];
+
+    const amountTo = `${prymaryCurrency.id}` === `${accountFrom.currency}` ?
+      data.amountFrom / data.rate :
+      data.amountFrom * data.rate;
+
+    const transfer = new Transfer({ ...data, amountTo, budget: budget.id });
     await transfer.save();
 
     accountFrom.transfers.push(transfer);

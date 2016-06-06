@@ -22,6 +22,8 @@ export function dumpTransaction({ id, account, category, date, price, quantity, 
   return { id, account, category, date, price, quantity, amount };
 }
 
-export function dumpTransfer({ id, accountFrom, accountTo, amountFrom, budget, date, rate }) {
-  return { id, accountFrom, accountTo, amountFrom, budget, date, rate };
+export function dumpTransfer({
+  id, accountFrom, accountTo, amountFrom, amountTo, budget, date, rate,
+}) {
+  return { id, accountFrom, accountTo, amountFrom, amountTo, budget, date, rate };
 }

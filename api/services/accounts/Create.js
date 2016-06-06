@@ -5,7 +5,6 @@ import mongoose from 'models';
 
 const Account = mongoose.model('Account');
 const Budget = mongoose.model('Budget');
-const Currency = mongoose.model('Currency');
 
 export default class Create extends Base {
   validate(data) {
@@ -17,10 +16,15 @@ export default class Create extends Base {
     return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
-  async execute({ user, title, currency }) {
-    const budget = await Budget.findOne({ users: user });
+  async execute(data) {
+    const budget = await Budget
+      .findOne({ users: data.user })
+      .populate({ path: 'currencies', match: { _id: data.currency } })
+      .exec();
 
-    if (!await Currency.findById(currency, { budget: budget.id })) {
+    const currency = budget.currencies[0];
+
+    if (!currency) {
       throw new Exception({
         code: 'NOT_FOUND',
         fields: {
@@ -29,7 +33,7 @@ export default class Create extends Base {
       });
     }
 
-    const account = new Account({ title, currency, budget: budget.id });
+    const account = new Account({ ...data, budget: budget.id });
     await account.save();
 
     budget.accounts.push(account);

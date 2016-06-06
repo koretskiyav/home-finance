@@ -3,46 +3,62 @@ import Exception from 'helpers/Exception';
 import Base from 'services/Base';
 import mongoose from 'models';
 
+const Budget = mongoose.model('Budget');
 const Transaction = mongoose.model('Transaction');
-const Category = mongoose.model('Category');
-const Account = mongoose.model('Account');
 
 export default class Create extends Base {
   validate(data) {
     const rules = {
-      accountId: ['required', 'object_id'],
-      categoryId: ['required', 'object_id'],
-      budgetId: ['required', 'object_id'],
-      quantity: ['required', 'positive_decimal'],
+      account: ['required', 'object_id'],
+      category: ['required', 'object_id'],
+      date: ['required', 'iso_date'],
       price: ['required', 'positive_decimal'],
+      quantity: ['required', 'positive_decimal'],
+      user: ['required', 'object_id'],
     };
     return this.validator.validate({ ...data, ...this.context }, rules);
   }
 
   async execute(data) {
-    const { accountId, categoryId, budgetId } = data;
+    const budget = await Budget
+      .findOne({ users: data.user })
+      .populate({ path: 'accounts', match: { _id: data.account }, populate: 'transactions' })
+      .populate({ path: 'categories', match: { _id: data.category }, populate: 'transactions' })
+      .exec();
 
-    if (!await Category.findById(categoryId, { budgetId })) {
+    const account = budget.accounts[0];
+
+    if (!account) {
       throw new Exception({
         code: 'NOT_FOUND',
         fields: {
-          categoryId: 'NOT_FOUND',
+          account: 'NOT_FOUND',
         },
       });
     }
 
-    if (!await Account.findById(accountId, { budgetId })) {
+    const category = budget.categories[0];
+
+    if (!category) {
       throw new Exception({
         code: 'NOT_FOUND',
         fields: {
-          accountId: 'NOT_FOUND',
+          category: 'NOT_FOUND',
         },
       });
     }
 
-    const transaction = new Transaction(data);
-
+    const transaction = new Transaction({ ...data, budget: budget.id });
     await transaction.save();
+
+    account.transactions.push(transaction);
+    await account.save();
+
+    category.transactions.push(transaction);
+    await category.save();
+
+    budget.transactions.push(transaction);
+    await budget.save();
 
     return {
       data: dumpTransaction(transaction),

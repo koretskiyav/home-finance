@@ -7,6 +7,7 @@ const CategorySchema = new Schema({
   children: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
   parent: { type: Schema.Types.ObjectId, ref: 'Category' },
   title: { type: String, required: true },
+  transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
   type: { type: String, enum: ['INCOME', 'EXPENSES'], required: true },
 });
 

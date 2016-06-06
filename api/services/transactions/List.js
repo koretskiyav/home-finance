@@ -2,21 +2,21 @@ import { dumpTransaction } from 'services/utils';
 import Base from 'services/Base';
 import mongoose from 'models';
 
-const Transaction = mongoose.model('Transaction');
+const Budget = mongoose.model('Budget');
 
 export default class List extends Base {
   validate() {
     const rules = {
-      budgetId: ['required', 'object_id'],
+      user: ['required', 'object_id'],
     };
     return this.validator.validate(this.context, rules);
   }
 
-  async execute(data) {
-    const transactions = await Transaction.find(data);
+  async execute({ user }) {
+    const budget = await Budget.findOne({ users: user }).populate('transactions').exec();
 
     return {
-      data: transactions.map(dumpTransaction),
+      data: budget.transactions.map(dumpTransaction),
     };
   }
 }

@@ -14,10 +14,10 @@ export function dumpCategory({ id, title, type, parent, children }) {
   return { id, title, type, parent, children };
 }
 
-export function dumpAccount({ id, title, currencyId }) {
-  return { id, title, currencyId };
+export function dumpAccount({ id, title, currency }) {
+  return { id, title, currency };
 }
 
-export function dumpTransaction({ id, accountId, categoryId, quantity, price, amount }) {
-  return { id, accountId, categoryId, quantity, price, amount };
+export function dumpTransaction({ id, account, category, date, price, quantity, amount }) {
+  return { id, account, category, date, price, quantity, amount };
 }

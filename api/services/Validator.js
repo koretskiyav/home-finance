@@ -12,6 +12,22 @@ const defaultRules = {
       return undefined;
     };
   },
+
+  'boolean'() {
+    return value => {
+      if (value === undefined || value === null || value === '') return undefined;
+      if (typeof value !== 'boolean') return 'FORMAT_ERROR';
+      return undefined;
+    };
+  },
+
+  'not_equal_to_field'(field) {
+    return (value, params) => {
+      if (value === undefined || value === null || value === '') return undefined;
+      if (value === params[field]) return 'FIELDS_EQUAL';
+      return undefined;
+    };
+  },
 };
 
 LIVR.Validator.registerDefaultRules(defaultRules);

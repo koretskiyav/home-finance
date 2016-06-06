@@ -10,6 +10,7 @@ import './Currency';
 import './Account';
 import './Category';
 import './Transaction';
+import './Transfer';
 import './Budget';
 
 export default mongoose;

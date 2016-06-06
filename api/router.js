@@ -29,6 +29,9 @@ router.postAsync('/accounts', checkSession, routes.accounts.create.bind(routes.a
 router.getAsync('/transactions', checkSession, routes.transactions.list.bind(routes.transactions));
 router.postAsync('/transactions', checkSession, routes.transactions.create.bind(routes.transactions));
 
+router.getAsync('/transfers', checkSession, routes.transfers.list.bind(routes.transfers));
+router.postAsync('/transfers', checkSession, routes.transfers.create.bind(routes.transfers));
+
 router.use((req, res) => {
   logger.error(`${req.method} ${req.url}`);
   logger.error('BODY: ', req.body);

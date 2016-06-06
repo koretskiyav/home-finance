@@ -7,6 +7,7 @@ const AccountSchema = new Schema({
   currency: { type: Schema.Types.ObjectId, required: true, ref: 'Currency' },
   title: { type: String, required: true },
   transactions: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
+  transfers: [{ type: Schema.Types.ObjectId, ref: 'Transfer' }],
 });
 
 mongoose.model('Account', AccountSchema);

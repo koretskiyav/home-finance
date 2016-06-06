@@ -11,7 +11,7 @@ export default class Create extends Base {
     const rules = {
       code: ['required', { length_equal: 3 }, 'to_uc'],
       user: ['required', 'object_id'],
-      prymary: ['required'], // TODO add bool here
+      prymary: ['required', 'boolean'],
     };
     return this.validator.validate({ ...data, ...this.context }, rules);
   }
@@ -28,8 +28,16 @@ export default class Create extends Base {
       });
     }
 
+    if (prymary && await Currency.findOne({ prymary, budget: budget.id })) {
+      throw new Exception({
+        code: 'ALERADY_EXISTS',
+        fields: {
+          prymary: 'ALERADY_EXISTS',
+        },
+      });
+    }
+
     const currency = new Currency({ code, prymary, budget: budget.id });
-    // TODO add prymary validation
     await currency.save();
 
     budget.currencies.push(currency);

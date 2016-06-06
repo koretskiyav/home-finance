@@ -4,6 +4,7 @@ import Currencies from './Currencies';
 import Categories from './Categories';
 import Accounts from './Accounts';
 import Transactions from './Transactions';
+import Transfers from './Transfers';
 
 export default {
   users: new Users(),
@@ -12,4 +13,5 @@ export default {
   categories: new Categories(),
   accounts: new Accounts(),
   transactions: new Transactions(),
+  transfers: new Transfers(),
 };

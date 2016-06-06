@@ -1,15 +1,17 @@
-import express from 'express';
+import Express from 'express';
 import httpProxy from 'http-proxy';
 import getLogger from './api/helpers/logger';
 import { port, apiHost, apiPort } from './api/etc/config.json';
 
 const logger = getLogger('MAIN');
 
-const app = express();
+const app = new Express();
 
 const apiUrl = `http://${apiHost}:${apiPort}`;
 
 const proxy = httpProxy.createProxyServer({ target: apiUrl });
+
+app.use(Express.static('./public'));
 
 app.use('/api', (req, res) => {
   proxy.web(req, res, { target: apiUrl });

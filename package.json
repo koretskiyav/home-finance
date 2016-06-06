@@ -13,7 +13,7 @@
   },
   "scripts": {
     "db": "mongod --dbpath ./api/db/ --port 27018 --smallfiles",
-    "lint": "eslint -c .eslintrc api",
+    "lint": "eslint -c .eslintrc api src",
     "api": "NODE_PATH=./api NODE_ENV=production babel-node ./api/api.js",
     "start": "NODE_ENV=production babel-node app.js"
   },
@@ -28,6 +28,10 @@
     "mongoose": "^4.4.19",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "react-router": "^2.4.1",
+    "redux": "^3.5.2",
+    "redux-router": "^1.0.0-beta8",
     "rename-keys": "^1.1.2",
     "winston": "^2.2.0"
   },

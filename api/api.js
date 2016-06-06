@@ -30,7 +30,7 @@ app.use(bodyParser.json({
   },
 }));
 
-app.use('/api', router);
+app.use(router);
 
 if (apiPort) {
   app.listen(apiPort, (err) => {

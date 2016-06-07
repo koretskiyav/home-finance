@@ -1,17 +1,15 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import { reduxReactRouter } from 'redux-router';
-import { createHistory } from 'history';
+import { createStore, compose, applyMiddleware } from 'redux';
+import { routerMiddleware } from 'react-router-redux';
+import reducers from 'redux/reducers';
 
-import router from 'router';
-import ApiClient from 'helpers/ApiClient';
-import reducers from './reducers';
-import clientMiddleware from './middleware/clientMiddleware';
-
-const client = new ApiClient();
-
-const store = compose(
-  reduxReactRouter({ router, createHistory }),
-  applyMiddleware(clientMiddleware(client))
-)(createStore)(reducers);
-
-export default store;
+export function configureStore(history, initialState) {
+  return createStore(
+    reducers,
+    initialState,
+    compose(
+      applyMiddleware(
+        routerMiddleware(history)
+      )
+    )
+  );
+}

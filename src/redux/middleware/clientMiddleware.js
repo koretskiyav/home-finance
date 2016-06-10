@@ -4,7 +4,7 @@ export default function clientMiddleware(client) {
       return action(dispatch, getState);
     }
 
-    const { promise, types, onSuccess, ...rest } = action;
+    const { promise, types, ...rest } = action;
 
     if (!promise) {
       return next(action);
@@ -24,12 +24,7 @@ export default function clientMiddleware(client) {
     next({ ...rest, type: REQUEST, params });
 
     return promise(client).then(
-      result => {
-        next({ ...rest, result, type: SUCCESS });
-        if (onSuccess) {
-          dispatch(onSuccess());
-        }
-      },
+      result => next({ ...rest, result, type: SUCCESS }),
       error => next({ ...rest, error, type: FAILURE })
     );
   };

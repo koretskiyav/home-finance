@@ -1,4 +1,5 @@
  module.exports = {
+   devtool: 'source-map',
    entry: './src/main',
    output: {
      path: './public/build',
@@ -14,6 +15,7 @@
          plugins: [
            'transform-async-to-generator',
            'transform-object-rest-spread',
+           'transform-class-properties',
          ],
        },
      }],

@@ -1,26 +1,29 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import { reduxForm } from 'redux-form';
 
-class LoginForm extends Component {
-  handleSubmit = (event) => {
-    event.preventDefault();
-    const email = this.refs.email.value;
-    const password = this.refs.password.value;
-    this.props.onSubmit({ email, password });
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input type="text" ref="email" placeholder="email" />
-        <input type="password" ref="password" placeholder="password" />
-        <button onClick={this.handleSubmit}>login</button>
-      </form>
-    );
-  }
+function LoginForm(props) {
+  const { fields: { email, password }, handleSubmit } = props;
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Email</label>
+        <input type="text" placeholder="Email" {...email} />
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" placeholder="Password" {...password} />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
 }
 
 LoginForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  fields: PropTypes.object.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
-export default LoginForm;
+export default reduxForm({
+  form: 'login',
+  fields: ['email', 'password'],
+})(LoginForm);

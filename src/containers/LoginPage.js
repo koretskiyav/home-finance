@@ -5,7 +5,7 @@ import LoginForm from 'components/LoginForm';
 import { login } from 'redux/modules/auth';
 
 class LoginPage extends Component {
-  onSubmit = ({ email, password }) => {
+  handleSubmit = ({ email, password }) => {
     this.props.dispatch(login({ email, password }));
   }
 
@@ -13,7 +13,7 @@ class LoginPage extends Component {
     return (
       <div>
         <LoginForm
-          onSubmit={this.onSubmit}
+          onSubmit={this.handleSubmit}
           error={this.props.error}
         />
       {this.props.error && this.props.error.code}

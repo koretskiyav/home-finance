@@ -14,4 +14,18 @@ export default class Currencies extends Base {
       params: req.query,
     });
   }
+
+  async update(req) {
+    return await this.run('currencies/Update', {
+      session: req.session,
+      params: { ...req.body, currency: req.params.id },
+    });
+  }
+
+  async remove(req) {
+    return await this.run('currencies/Remove', {
+      session: req.session,
+      params: { currency: req.params.id },
+    });
+  }
 }

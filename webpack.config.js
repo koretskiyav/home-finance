@@ -16,6 +16,7 @@
            'transform-async-to-generator',
            'transform-object-rest-spread',
            'transform-class-properties',
+           'transform-runtime',
          ],
        },
      }],

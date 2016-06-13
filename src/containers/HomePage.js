@@ -20,11 +20,11 @@ class HomePage extends Component {
 
   render() {
     const { user, currencies } = this.props;
-
+    console.log(currencies.data && Object.values(currencies.data));
     return (
       <div>
         Hello, {user.email} !
-        {currencies.data && currencies.data.map(currency => (
+        {currencies.data && Object.values(currencies.data).map(currency => (
           <div key={currency.id}>{currency.code}{currency.prymary && ' (prymary)'}</div>
         ))}
         <CurrencyForm onSubmit={this.addCurrency} />

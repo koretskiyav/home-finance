@@ -8,6 +8,10 @@ const ADD_REQUEST = 'currencies/ADD_REQUEST';
 const ADD_SUCCESS = 'currencies/ADD_SUCCESS';
 const ADD_FAILURE = 'currencies/ADD_FAILURE';
 
+const REMOVE_REQUEST = 'currencies/REMOVE_REQUEST';
+const REMOVE_SUCCESS = 'currencies/REMOVE_SUCCESS';
+const REMOVE_FAILURE = 'currencies/REMOVE_FAILURE';
+
 const { CURRENCY_ARRAY, CURRENCY } = Schemas;
 const initialState = {};
 
@@ -15,6 +19,7 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD_REQUEST:
     case ADD_REQUEST:
+    case REMOVE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -26,6 +31,17 @@ export default function reducer(state = initialState, action = {}) {
         loaded: true,
         data: { ...state.data, ...action.result.currencies },
       };
+    case REMOVE_SUCCESS: {
+      const cloneDate = { ...state.data };
+      delete cloneDate[action.result];
+
+      return {
+        ...state,
+        loading: false,
+        loaded: true,
+        data: cloneDate,
+      };
+    }
     case LOAD_SUCCESS:
       return {
         ...state,
@@ -35,6 +51,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case LOAD_FAILURE:
     case ADD_FAILURE:
+    case REMOVE_FAILURE:
       return {
         ...state,
         loading: false,
@@ -61,5 +78,12 @@ export function add({ code, prymary }) {
     promise: api => api.post('/currencies', {
       data: { code, prymary },
     }),
+  };
+}
+
+export function remove({ currencyId }) {
+  return {
+    types: [REMOVE_REQUEST, REMOVE_SUCCESS, REMOVE_FAILURE],
+    promise: api => api.del(`/currencies/${currencyId}`),
   };
 }

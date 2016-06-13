@@ -2,7 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import CurrencyForm from 'components/CurrencyForm';
-import { load, add } from 'redux/modules/currencies';
+import CurrencyLine from 'components/CurrencyLine';
+import { load, add, remove } from 'redux/modules/currencies';
 
 class HomePage extends Component {
   componentWillMount() {
@@ -18,15 +19,19 @@ class HomePage extends Component {
     dispatch(add({ code, prymary }));
   }
 
+  removeCurrency = ({ currencyId }) => {
+    const { dispatch } = this.props;
+    dispatch(remove({ currencyId }));
+  }
+
   render() {
     const { user, currencies } = this.props;
-    console.log(currencies.data && Object.values(currencies.data));
     return (
       <div>
         Hello, {user.email} !
-        {currencies.data && Object.values(currencies.data).map(currency => (
-          <div key={currency.id}>{currency.code}{currency.prymary && ' (prymary)'}</div>
-        ))}
+        {currencies.data && Object.values(currencies.data).map(currency =>
+          <CurrencyLine key={currency.id} currency={currency} onRemove={this.removeCurrency} />
+        )}
         <CurrencyForm onSubmit={this.addCurrency} />
       </div>
     );

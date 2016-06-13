@@ -8,6 +8,10 @@ const ADD_REQUEST = 'currencies/ADD_REQUEST';
 const ADD_SUCCESS = 'currencies/ADD_SUCCESS';
 const ADD_FAILURE = 'currencies/ADD_FAILURE';
 
+const UPDATE_REQUEST = 'currencies/UPDATE_REQUEST';
+const UPDATE_SUCCESS = 'currencies/UPDATE_SUCCESS';
+const UPDATE_FAILURE = 'currencies/UPDATE_FAILURE';
+
 const REMOVE_REQUEST = 'currencies/REMOVE_REQUEST';
 const REMOVE_SUCCESS = 'currencies/REMOVE_SUCCESS';
 const REMOVE_FAILURE = 'currencies/REMOVE_FAILURE';
@@ -19,12 +23,14 @@ export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case LOAD_REQUEST:
     case ADD_REQUEST:
+    case UPDATE_REQUEST:
     case REMOVE_REQUEST:
       return {
         ...state,
         loading: true,
       };
     case ADD_SUCCESS:
+    case UPDATE_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -51,6 +57,7 @@ export default function reducer(state = initialState, action = {}) {
       };
     case LOAD_FAILURE:
     case ADD_FAILURE:
+    case UPDATE_FAILURE:
     case REMOVE_FAILURE:
       return {
         ...state,
@@ -77,6 +84,16 @@ export function add({ code, prymary }) {
     schema: CURRENCY,
     promise: api => api.post('/currencies', {
       data: { code, prymary },
+    }),
+  };
+}
+
+export function update({ currencyId, code }) {
+  return {
+    types: [UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE],
+    schema: CURRENCY,
+    promise: api => api.put(`/currencies/${currencyId}`, {
+      data: { code },
     }),
   };
 }

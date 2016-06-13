@@ -15,7 +15,7 @@ class HomePage extends Component {
 
   addCurrency = ({ code }) => {
     const { currencies, dispatch } = this.props;
-    const prymary = !currencies.data || currencies.data.length === 0;
+    const prymary = !currencies.data || Object.keys(currencies.data).length === 0;
     dispatch(add({ code, prymary }));
   }
 

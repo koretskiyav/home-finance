@@ -14,14 +14,16 @@ class LoginPage extends Component {
   }
 
   render() {
+    const { user, error, loading } = this.props;
     return (
       <div>
-        <LoginForm
+        {!user && <LoginForm
           onSubmit={this.handleSubmit}
-          error={this.props.error}
-        />
-      {this.props.error && this.props.error.code}
-      {this.props.loading && 'loading...'}
+          error={error}
+        />}
+      {user && `Hello, ${user.email} !`}
+      {error && error.code}
+      {loading && 'loading...'}
       </div>
     );
   }
@@ -30,6 +32,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
   error: PropTypes.object,
   loading: PropTypes.bool,
+  user: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
 };
 
@@ -37,5 +40,6 @@ export default connect(
   state => ({
     error: state.auth.error,
     loading: state.auth.loading,
+    user: state.auth.user,
   })
 )(LoginPage);

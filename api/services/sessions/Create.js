@@ -41,6 +41,7 @@ export default class Create extends Base {
 
     return {
       jwt: jwt.sign(dumpUser(existingUser), secret),
+      data: dumpUser(existingUser),
     };
   }
 }

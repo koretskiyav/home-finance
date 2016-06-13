@@ -9,7 +9,6 @@ const LOGIN_FAILURE = 'auth/LOGIN_FAILURE';
 const initialState = {};
 
 export default function reducer(state = initialState, action = {}) {
-  console.log(action);
   switch (action.type) {
     case REGISTER_REQUEST:
       return {

@@ -13,7 +13,7 @@ export default class ApiClient {
         const request = superagent[method](formatUrl(path));
 
         if (this.authToken) {
-          request.query(params);
+          request.query({ token: this.authToken });
         }
 
         if (params) {

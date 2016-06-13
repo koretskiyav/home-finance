@@ -28,9 +28,8 @@ export default class ApiClient {
           if (err || !body || !body.status) {
             return reject(body && body.error || err);
           }
-
-          if (body.token) {
-            this.setAuthToken(body.token);
+          if (body.jwt) {
+            this.setAuthToken(body.jwt);
           }
 
           return resolve(body.data);
@@ -41,9 +40,5 @@ export default class ApiClient {
 
   setAuthToken(authToken) {
     this.authToken = authToken;
-  }
-
-  delAuthToken() {
-    this.authToken = null;
   }
 }

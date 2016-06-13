@@ -2,11 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import LoginForm from 'components/LoginForm';
-import { login } from 'redux/modules/auth';
+import { login, register } from 'redux/modules/auth';
 
 class LoginPage extends Component {
-  handleSubmit = ({ email, password }) => {
-    this.props.dispatch(login({ email, password }));
+  handleSubmit = ({ email, password, confirm, auth }) => {
+    if (auth === 'registration') {
+      this.props.dispatch(register({ email, password, confirm }));
+    } else {
+      this.props.dispatch(login({ email, password }));
+    }
   }
 
   render() {

@@ -29,7 +29,7 @@
     },
     "api": {
       "command": "babel-node ./api/api.js",
-      "api": {
+      "env": {
         "NODE_PATH": "./api",
         "NODE_ENV": "production"
       }

@@ -12,7 +12,7 @@
     "url": "https://github.com/koretskiyav/home-finance.git"
   },
   "scripts": {
-    "db": "mongod --dbpath ./api/db/ --port 27018 --smallfiles",
+    "db": "mongod --dbpath ./db/ --port 27018",
     "lint": "eslint -c .eslintrc api src",
     "api": "better-npm-run api",
     "start": "npm run build-watch & npm run start-server",

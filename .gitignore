@@ -1,4 +1,4 @@
 node_modules/
 npm-debug.log
-api/db/
+db/*
 public/build/

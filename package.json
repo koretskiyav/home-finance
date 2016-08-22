@@ -15,7 +15,9 @@
     "db": "mongod --dbpath ./api/db/ --port 27018 --smallfiles",
     "lint": "eslint -c .eslintrc api src",
     "api": "better-npm-run api",
-    "start": "better-npm-run start"
+    "start": "npm run build-watch & npm run start-server",
+    "start-server": "better-npm-run start",
+    "build-watch": "./node_modules/webpack/bin/webpack.js --watch"
   },
   "betterScripts": {
     "start": {

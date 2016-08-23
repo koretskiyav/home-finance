@@ -17,7 +17,7 @@
     "api": "better-npm-run api",
     "start": "npm run build-watch & npm run start-server",
     "start-server": "better-npm-run start",
-    "build-watch": "./node_modules/webpack/bin/webpack.js --watch"
+    "build-watch": "better-npm-run build-watch"
   },
   "betterScripts": {
     "start": {
@@ -33,6 +33,9 @@
         "NODE_PATH": "./api",
         "NODE_ENV": "production"
       }
+    },
+    "build-watch": {
+      "command": "webpack --watch"
     }
   },
   "dependencies": {

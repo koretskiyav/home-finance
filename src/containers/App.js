@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar user={this.props.user}/>
+        <NavBar user={this.props.user} />
         {this.props.children}
       </div>
     );

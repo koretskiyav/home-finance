@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import { Link } from 'react-router';
+
+import NavBar from '../components/NavBar';
 
 class App extends Component {
   componentWillReceiveProps(nextProps) {
@@ -12,10 +13,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <ul>
-          <li><Link to='/'>App</Link></li>
-          <li><Link to='/home'>Home</Link></li>
-        </ul>
+        <NavBar />
         {this.props.children}
       </div>
     );

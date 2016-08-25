@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 
-import NavBar from '../components/NavBar';
+import NavBar from 'components/NavBar';
 
 class App extends Component {
   componentWillReceiveProps(nextProps) {
@@ -13,7 +13,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <NavBar />
+        <NavBar user={this.props.user}/>
         {this.props.children}
       </div>
     );

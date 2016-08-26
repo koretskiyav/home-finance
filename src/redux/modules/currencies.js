@@ -16,8 +16,12 @@ const REMOVE_REQUEST = 'currencies/REMOVE_REQUEST';
 const REMOVE_SUCCESS = 'currencies/REMOVE_SUCCESS';
 const REMOVE_FAILURE = 'currencies/REMOVE_FAILURE';
 
+const EDIT_VALUE = 'currencies/EDIT_VALUE';
+
 const { CURRENCY_ARRAY, CURRENCY } = Schemas;
-const initialState = {};
+const initialState = {
+  currentEditableValue: '',
+};
 
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -65,6 +69,11 @@ export default function reducer(state = initialState, action = {}) {
         loaded: false,
         error: action.error,
       };
+    case EDIT_VALUE:
+      return {
+        ...state,
+        currentEditableValue: action.currentEditableValue
+      }
     default:
       return state;
   }
@@ -90,8 +99,9 @@ export function add({ code, prymary }) {
 
 export function update({ currencyId, code }) {
   return {
-    types: [UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE],
+    types: [UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE, EDIT_VALUE],
     schema: CURRENCY,
+    currentEditableValue: '',
     promise: api => api.put(`/currencies/${currencyId}`, {
       data: { code },
     }),
@@ -102,5 +112,12 @@ export function remove({ currencyId }) {
   return {
     types: [REMOVE_REQUEST, REMOVE_SUCCESS, REMOVE_FAILURE],
     promise: api => api.del(`/currencies/${currencyId}`),
+  };
+}
+
+export function edit({ currencyId }) {
+  return {
+    type: EDIT_VALUE,
+    currentEditableValue: currencyId,
   };
 }

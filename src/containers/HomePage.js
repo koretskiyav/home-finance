@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import CurrencyForm from 'components/CurrencyForm';
 import CurrencyLine from 'components/CurrencyLine';
-import { load, add, remove, edit } from 'redux/modules/currencies';
+import { load, add, update, remove, edit, change} from 'redux/modules/currencies';
 
 class HomePage extends Component {
   componentWillMount() {
@@ -24,13 +24,24 @@ class HomePage extends Component {
     dispatch(remove({ currencyId }));
   }
 
-  editCurrency = ({ currencyId }) => {
+  editCurrency = ({ currencyId, code }) => {
     const { dispatch } = this.props;
-    dispatch(edit({ currencyId }));
+    dispatch(edit({ currencyId, code }));
+  }
+
+  changeCurrency = ({ code }) => {
+    const { dispatch } = this.props;
+    dispatch(change({ code }));
+  }
+
+  updateCurrency = ({ currencyId, code }) => {
+    const { dispatch } = this.props;
+    dispatch(update({ currencyId, code }));
   }
 
   render() {
     const { user, currencies } = this.props;
+
     return (
       <div>
         Hello, {user.email} !
@@ -38,8 +49,11 @@ class HomePage extends Component {
           <CurrencyLine
             key={currency.id}
             currency={currency}
-            editable={currency.id == currencies.currentEditableValue}
+            editable={currency.id == currencies.currentEditableId}
+            currentEditableValue={currencies.currentEditableValue}
             onEdit={this.editCurrency}
+            onChange={this.changeCurrency}
+            onUpdate={this.updateCurrency}
             onRemove={this.removeCurrency}
           />
         )}

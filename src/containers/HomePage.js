@@ -1,77 +1,134 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import CurrencyForm from 'components/CurrencyForm';
-import CurrencyLine from 'components/CurrencyLine';
-import { load, add, update, remove, edit, change} from 'redux/modules/currencies';
+import {
+  Currencies,
+  CurrencyForm,
+} from 'components';
 
-class HomePage extends Component {
-  componentWillMount() {
-    const { currencies, dispatch } = this.props;
-    if (!currencies.loading && !currencies.data) {
-      dispatch(load());
-    }
-  }
+import {
+  load, add, update, remove, startEdit, change,
+} from 'redux/modules/currencies';
 
-  addCurrency = ({ code }) => {
-    const { currencies, dispatch } = this.props;
-    const prymary = !currencies.data || Object.keys(currencies.data).length === 0;
-    dispatch(add({ code, prymary }));
-  }
+import {
+  compose,
+  defaultProps,
+  lifecycle,
+  withPropsOnChange,
+  withHandlers,
+  pure,
+} from 'recompose';
 
-  removeCurrency = ({ currencyId }) => {
-    const { dispatch } = this.props;
-    dispatch(remove({ currencyId }));
-  }
+const {
+  func,
+  object,
+  arrayOf,
+  string,
+} = PropTypes;
 
-  editCurrency = ({ currencyId, code }) => {
-    const { dispatch } = this.props;
-    dispatch(edit({ currencyId, code }));
-  }
+const reduxConnect = connect(({
+  auth: { user },
+  currencies,
+}) => ({
+  user,
+  currenciesData: currencies.data,
+  currenciesId: currencies.id,
+  editedId: currencies.edited.id,
+  editedValue: currencies.edited.code,
+}), dispatch => bindActionCreators({
+  load, add, update, remove, startEdit, change,
+}, dispatch));
 
-  changeCurrency = ({ code }) => {
-    const { dispatch } = this.props;
-    dispatch(change({ code }));
-  }
+export const homePageHOC = compose(
+  defaultProps({
+    currencies: [],
+  }),
 
-  updateCurrency = ({ currencyId, code }) => {
-    const { dispatch } = this.props;
-    dispatch(update({ currencyId, code }));
-  }
+  lifecycle({
+    componentWillMount() {
+      const { currencies: { loading, loaded } } = this.props;
+      if (!loading && !loaded) {
+        this.props.load();
+      }
+    },
+  }),
 
-  render() {
-    const { user, currencies } = this.props;
+  withPropsOnChange(
+    ['currenciesData', 'currenciesId'], ({ currenciesData, currenciesId }) => ({
+      currencies: currenciesId.map(id => currenciesData[id]),
+    })
+  ),
 
-    return (
-      <div>
-        Hello, {user.email} !
-        {currencies.data && Object.values(currencies.data).map(currency =>
-          <CurrencyLine
-            key={currency.id}
-            currency={currency}
-            editable={currency.id == currencies.currentEditableId}
-            currentEditableValue={currencies.currentEditableValue}
-            onEdit={this.editCurrency}
-            onChange={this.changeCurrency}
-            onUpdate={this.updateCurrency}
-            onRemove={this.removeCurrency}
-          />
-        )}
-        <CurrencyForm onSubmit={this.addCurrency} />
-      </div>
-    );
-  }
-}
+  withHandlers({
+    onCurrencyAdd: props => ({ code }) =>
+      props.add(code),
 
-HomePage.propTypes = {
-  currencies: PropTypes.object,
-  user: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
+    onCurrencyUpdate: ({ editedId, editedValue, ...props }) => () =>
+      props.update(editedId, editedValue),
+
+    onCurrencyRemove: props => id => () =>
+      props.remove(id),
+
+    onCurrencyStartEdit: props => (id, code) => () =>
+      props.startEdit(id, code),
+
+    onCurrencyEndEdit: props => () =>
+      props.startEdit(null, ''),
+
+    onCurrencyChange: props => ev =>
+      props.change(ev.target.value),
+  }),
+
+  pure
+);
+
+const propTypes = {
+  user: object.isRequired,
+  currencies: arrayOf(object).isRequired,
+  editedId: string,
+  editedValue: string,
+  // hendlers
+  onCurrencyAdd: func,
+  onCurrencyUpdate: func,
+  onCurrencyRemove: func,
+  onCurrencyStartEdit: func,
+  onCurrencyEndEdit: func,
+  onCurrencyChange: func,
 };
 
-export default connect(
-  state => ({
-    user: state.auth.user,
-    currencies: state.currencies,
-  })
-)(HomePage);
+const homePage = ({
+  user,
+  currencies,
+  editedId,
+  editedValue,
+  onCurrencyAdd,
+  onCurrencyUpdate,
+  onCurrencyRemove,
+  onCurrencyStartEdit,
+  onCurrencyEndEdit,
+  onCurrencyChange,
+}) =>
+  <div>
+    Hello, {user.email} !
+    <Currencies
+      currencies={currencies}
+      editedId={editedId}
+      editedValue={editedValue}
+      onStartEdit={onCurrencyStartEdit}
+      onEndEdit={onCurrencyEndEdit}
+      onEndEdit={onCurrencyEndEdit}
+      onChange={onCurrencyChange}
+      onUpdate={onCurrencyUpdate}
+      onRemove={onCurrencyRemove}
+    />
+    <CurrencyForm onSubmit={onCurrencyAdd} />
+  </div>;
+
+homePage.propTypes = propTypes;
+
+export default reduxConnect(
+  homePageHOC(
+    homePage
+  )
+);

@@ -35,7 +35,7 @@ export default function clientMiddleware(client) {
     return promise(client).then(
       result => next({
         ...rest,
-        result: schema ? normalize(result, schema).entities : result,
+        ...(schema ? normalize(result, schema) : { result }),
         type: SUCCESS }),
       error => next({ ...rest, error, type: FAILURE })
     );

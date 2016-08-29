@@ -11,7 +11,8 @@ export function configureStore(client, history, initialState) {
       applyMiddleware(
         clientMiddleware(client),
         routerMiddleware(history)
-      )
+      ),
+      window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );
 }

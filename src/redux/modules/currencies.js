@@ -16,13 +16,14 @@ const REMOVE_REQUEST = 'currencies/REMOVE_REQUEST';
 const REMOVE_SUCCESS = 'currencies/REMOVE_SUCCESS';
 const REMOVE_FAILURE = 'currencies/REMOVE_FAILURE';
 
-const EDIT_VALUE   = 'currencies/EDIT_VALUE';
-const CHANGE_VALUE = 'currencies/CHANGE_VALUE';
+const START_EDIT = 'currencies/START_EDIT';
+const CHANGE = 'currencies/CHANGE';
 
 const { CURRENCY_ARRAY, CURRENCY } = Schemas;
 const initialState = {
-  currentEditableId: '',
-  currentEditableValue: '',
+  id: [],
+  data: {},
+  edited: {},
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -36,31 +37,36 @@ export default function reducer(state = initialState, action = {}) {
         loading: true,
       };
     case ADD_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        id: [...state.id, action.result],
+        data: { ...state.data, ...action.entities.currencies },
+      };
     case UPDATE_SUCCESS:
       return {
         ...state,
         loading: false,
-        loaded: true,
-        data: { ...state.data, ...action.result.currencies },
+        edited: initialState.edited,
+        data: { ...state.data, ...action.entities.currencies },
       };
-    case REMOVE_SUCCESS: {
-      const cloneDate = { ...state.data };
-      delete cloneDate[action.result];
 
+    case REMOVE_SUCCESS:
       return {
         ...state,
         loading: false,
-        loaded: true,
-        data: cloneDate,
+        id: state.id.filter(id => id !== action.result),
       };
-    }
+
     case LOAD_SUCCESS:
       return {
         ...state,
         loading: false,
         loaded: true,
-        data: action.result.currencies,
+        data: action.entities.currencies,
+        id: action.result,
       };
+
     case LOAD_FAILURE:
     case ADD_FAILURE:
     case UPDATE_FAILURE:
@@ -68,20 +74,29 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         loading: false,
-        loaded: false,
         error: action.error,
       };
-    case EDIT_VALUE:
+
+    case START_EDIT: {
+      const { id, code } = action;
       return {
         ...state,
-        currentEditableId: action.currentEditableId,
-        currentEditableValue: action.currentEditableValue
-      }
-    case CHANGE_VALUE:
+        edited: {
+          id,
+          code,
+        },
+      };
+    }
+
+    case CHANGE:
       return {
         ...state,
-        currentEditableValue: action.currentEditableValue
-      }
+        edited: {
+          ...state.edited,
+          code: action.code,
+        },
+      };
+
     default:
       return state;
   }
@@ -95,7 +110,7 @@ export function load() {
   };
 }
 
-export function add({ code, prymary }) {
+export function add(code, prymary = false) {
   return {
     types: [ADD_REQUEST, ADD_SUCCESS, ADD_FAILURE],
     schema: CURRENCY,
@@ -105,34 +120,34 @@ export function add({ code, prymary }) {
   };
 }
 
-export function update({ currencyId, code }) {
+export function update(id, code) {
   return {
     types: [UPDATE_REQUEST, UPDATE_SUCCESS, UPDATE_FAILURE],
     schema: CURRENCY,
-    promise: api => api.put(`/currencies/${currencyId}`, {
+    promise: api => api.put(`/currencies/${id}`, {
       data: { code },
     }),
   };
 }
 
-export function remove({ currencyId }) {
+export function remove(id) {
   return {
     types: [REMOVE_REQUEST, REMOVE_SUCCESS, REMOVE_FAILURE],
-    promise: api => api.del(`/currencies/${currencyId}`),
+    promise: api => api.del(`/currencies/${id}`),
   };
 }
 
-export function edit({ currencyId, code }) {
+export function startEdit(id, code) {
   return {
-    type: EDIT_VALUE,
-    currentEditableId: currencyId,
-    currentEditableValue: code,
+    type: START_EDIT,
+    id,
+    code,
   };
 }
 
-export function change({ code }) {
+export function change(code) {
   return {
-    type: CHANGE_VALUE,
-    currentEditableValue: code,
+    type: CHANGE,
+    code,
   };
 }

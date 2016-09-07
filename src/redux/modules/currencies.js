@@ -1,4 +1,4 @@
-import { Schemas } from 'redux/middleware/clientMiddleware';
+import { CURRENCY_ARRAY, CURRENCY } from 'redux/schemas';
 
 const LOAD_REQUEST = 'currencies/LOAD_REQUEST';
 const LOAD_SUCCESS = 'currencies/LOAD_SUCCESS';
@@ -19,7 +19,6 @@ const REMOVE_FAILURE = 'currencies/REMOVE_FAILURE';
 const START_EDIT = 'currencies/START_EDIT';
 const CHANGE = 'currencies/CHANGE';
 
-const { CURRENCY_ARRAY, CURRENCY } = Schemas;
 const initialState = {
   id: [],
   data: {},

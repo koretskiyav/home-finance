@@ -1,11 +1,4 @@
-import { Schema, arrayOf, normalize } from 'normalizr';
-
-const currencySchema = new Schema('currencies');
-
-export const Schemas = {
-  CURRENCY: currencySchema,
-  CURRENCY_ARRAY: arrayOf(currencySchema),
-};
+import { normalize } from 'normalizr';
 
 export default function clientMiddleware(client) {
   return ({ dispatch, getState }) => next => action => {
